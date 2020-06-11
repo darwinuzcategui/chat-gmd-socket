@@ -31,6 +31,7 @@ io.on('connection', (cliente) => {
 
         //Un envento para Saber Cuales Peronas ingresaron al chat
         cliente.broadcast.to(usuarioConectado.sala).emit('listaPersona', usuarios.getPersonasPorSala(usuarioConectado.sala));
+        cliente.broadcast.to(usuarioConectado.sala).emit('crearMensaje', crearMensaje('Administrador', `${usuarioConectado.nombre} Se unio `));
 
         // si quiero todos los conectados callback(personas);
         callback(usuarios.getPersonasPorSala(usuarioConectado.sala));
@@ -38,12 +39,18 @@ io.on('connection', (cliente) => {
     });
 
     //aqui el servidor escucha mensaje
-    cliente.on('crearMensaje', (data) => {
+    cliente.on('crearMensaje', (data, callback) => {
 
         let persona = usuarios.getPersona(cliente.id);
 
         let mensaje = crearMensaje(persona.nombre, data.mensaje);
         cliente.broadcast.to(persona.sala).emit('crearMensaje', mensaje);
+
+
+
+
+
+        callback(mensaje);
 
     });
 

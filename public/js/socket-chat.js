@@ -2,7 +2,7 @@
 var socket = io();
 
 var params = new URLSearchParams(window.location.search);
-console.log(params);
+//console.log(params);
 
 if (!params.has('nombre') || !params.has('sala')) {
 
@@ -21,7 +21,9 @@ var usuario = {
 socket.on('connect', function() {
     console.log('conectado al servidor');
     socket.emit('entrarChat', usuario, function(resp) {
-        console.log('Usuario conectados:', resp);
+        renderizarUsuarioDelChat(resp);
+
+        //console.log('Usuario conectados:', resp);
     });
 
 });
@@ -44,12 +46,14 @@ socket.emit('crearMensaje', {
 */
 // escuchar informacion
 socket.on("crearMensaje", function(mensaje) {
-    console.log('Servidor:', mensaje);
+    // console.log('Servidor:', mensaje);
+    renderizarMensaje(mensaje, soyYoQueEnvio = false);
 });
 
 // Escuchar cambio de usuarios
 // Cuandoun usuario entra y sale del chat//Un envento para Saber Cuales Peronas ingresaron al chat
 socket.on('listaPersona', function(personas) {
+    renderizarUsuarioDelChat(personas);
     console.log('personas', personas);
 });
 
