@@ -58,3 +58,5 @@ socket.on('mensajePrivado', function(mensaje) {
     console.log('mensaje Privado:', mensaje);
 
 });
+
+// TODO: CONTINURA VIDEO 11 SECCION 16
